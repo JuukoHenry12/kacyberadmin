@@ -1,40 +1,84 @@
-import Banner from "./components/Banner";
+import React, { useState } from "react";
+import Card from "components/card";
 import General from "./components/General";
-import Notification from "./components/Notification";
-import Project from "./components/Project";
-import Storage from "./components/Storage";
-import Upload from "./components/Upload";
 
 const ProfileOverview = () => {
+  const [name, setName] = useState();
+  const [password, setPassword] = useState();
+  const [email, setEmail] = useState();
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const payload = {
+      name,
+      password,
+      email,
+    };
+  };
+
   return (
     <div className="flex w-full flex-col gap-5">
-      <div className="w-ful mt-3 flex h-fit flex-col gap-5 lg:grid lg:grid-cols-12">
-        <div className="col-span-4 lg:!mb-0">
-          <Banner />
-        </div>
+      <Card>
+        <form className="m-4">
+          <div class="mb-6 ">
+            <label
+              for="name"
+              class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Your Name
+            </label>
+            <input
+              type="Name"
+              id="name"
+              class="dark:shadow-sm-light block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+              placeholder="Enter your name"
+              required
+              value={name}
+              onChange={(event) => setName(event.target.value)}
+            />
+          </div>
+          <div class="mb-6 ">
+            <label
+              for="email"
+              class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Your email
+            </label>
+            <input
+              type="email"
+              id="email"
+              class="dark:shadow-sm-light block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+              placeholder="name@flowbite.com"
+              required
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+            />
+          </div>
+          <div class="mb-6">
+            <label
+              for="password"
+              class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Your password
+            </label>
+            <input
+              type="password"
+              id="password"
+              class="dark:shadow-sm-light block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+              required
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+            />
+          </div>
 
-        <div className="col-span-3 lg:!mb-0">
-          <Storage />
-        </div>
-
-        <div className="z-0 col-span-5 lg:!mb-0">
-          <Upload />
-        </div>
-      </div>
-      {/* all project & ... */}
-
-      <div className="grid h-full grid-cols-1 gap-5 lg:!grid-cols-12">
-        <div className="col-span-5 lg:col-span-6 lg:mb-0 3xl:col-span-4">
-          <Project />
-        </div>
-        <div className="col-span-5 lg:col-span-6 lg:mb-0 3xl:col-span-5">
-          <General />
-        </div>
-
-        <div className="col-span-5 lg:col-span-12 lg:mb-0 3xl:!col-span-3">
-          <Notification />
-        </div>
-      </div>
+          <button
+            type="submit"
+            class="rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          >
+            Create User
+          </button>
+        </form>
+      </Card>
     </div>
   );
 };

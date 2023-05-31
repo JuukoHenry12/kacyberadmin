@@ -1,5 +1,5 @@
 import axios from 'axios';
-export const axiosInstance =axios.create({
+ const axiosInstance =axios.create({
     baseURL: 'http://localhost:5000',
 	timeout: 8000,
     headers:{
@@ -7,3 +7,4 @@ export const axiosInstance =axios.create({
         // authorization: `Bearer ${localStorage.getItem('token')}`
     }
 })
+export default axiosInstance
