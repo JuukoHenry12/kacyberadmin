@@ -1,7 +1,7 @@
 import React from "react";
 import DataTables from "views/admin/tables";
 import Profile from "views/admin/profile";
-
+import Stuff from "views/stuff/Index";
 import SignIn from "views/auth/SignIn";
 // Icon Imports
 import {MdBarChart,MdLock,MdPerson} from "react-icons/md";
@@ -19,6 +19,13 @@ const routes = [
       path: "profile",
       icon: <MdPerson className="h-6 w-6" />,
       component: <Profile />,
+    },
+    {
+      name: "Stuff",
+      layout: "/admin",
+      path: "stuff",
+      icon: <MdPerson className="h-6 w-6" />,
+      component: <Stuff  />,
     },
  
    {

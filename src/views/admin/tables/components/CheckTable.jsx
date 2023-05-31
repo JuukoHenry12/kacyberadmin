@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import CardMenu from "components/card/CardMenu";
 import Card from "components/card";
-import  GetCurrentUser  from "../../../../ApiCalls/api";
+import  {GetCurrentUser}  from "../../../../ApiCalls/api";
 
 
 const CheckTable = (props) => {

@@ -1,29 +1,40 @@
 import axiosInstance from "./axiosInstance"
 
-const RegisterUser=async()=>{
+export  const RegisterUser=async(payload)=>{
     try {
-        const response = await axiosInstance.get('/api/register')
+        const response = await axiosInstance.post('/api/register',payload)
         return response.data
     }catch(error){
         return error.message
     }
 }
 
-const LoginUser=async()=>{
+export  const LoginUser=async(payload)=>{
     try {
-        const response = await axiosInstance.get('/api/login')
+        const response = await axiosInstance.post('/api/login',payload)
         return response.data
     }catch(error){
         return error.message
     }
 }
-const GetCurrentUser =async()=>{
+export const GetCurrentUser =async()=>{
     try {
         const response = await axiosInstance.get('/api/getUsers')
         return response.data
     }catch(error){
         return error.message
-    }
+}
 }
 
-export default {GetCurrentUser,LoginUser,RegisterUser}
+export const GetStuff  =async()=>{
+        try {
+            const response = await axiosInstance.get('/api/getStuff')
+            return response.data
+        }catch(error){
+            return error.message
+        }
+}
+    
+
+
+

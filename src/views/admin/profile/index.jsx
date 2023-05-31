@@ -1,25 +1,40 @@
 import React, { useState } from "react";
 import Card from "components/card";
-import General from "./components/General";
+import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; 
+import { RegisterUser } from "ApiCalls/api";
 
 const ProfileOverview = () => {
   const [name, setName] = useState();
   const [password, setPassword] = useState();
   const [email, setEmail] = useState();
-
-  const handleSubmit = (event) => {
+  const navigate = useNavigate()
+  const handleSubmit =async (event) => {
     event.preventDefault();
     const payload = {
       name,
       password,
       email,
     };
+    const response = await RegisterUser(payload)
+    console.log(response)
+      if(response.success == true ){
+        toast("Loggined in Succefully !");
+        navigate("/admin/stuff")
+     
+      }else {
+        alert("failed to login ")
+      }
+      setName("")
+      setEmail("")
+      setPassword("")
   };
 
   return (
     <div className="flex w-full flex-col gap-5">
       <Card>
-        <form className="m-4">
+        <form className="m-4" onSubmit={handleSubmit}>
           <div class="mb-6 ">
             <label
               for="name"
