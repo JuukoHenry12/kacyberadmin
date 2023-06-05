@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { LoginUser } from "../../ApiCalls/api";
+import { LoginStuff } from "../../ApiCalls/StuffApi";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -16,9 +16,9 @@ export default function SignIn() {
       password
     };
 
-    const response = await LoginUser(payload)
+    const response = await LoginStuff(payload)
     console.log(response)
-      if(response.success == true ){
+      if(response.success === true ){
         toast("Loggined in Succefully !");
         navigate("/admin/data-tables")
      

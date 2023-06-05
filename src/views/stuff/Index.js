@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import CardMenu from "components/card/CardMenu";
 import Card from "components/card";
-import  {GetStuff}  from "../../ApiCalls/api";
+import  {GetStuff}  from "../../ApiCalls/StuffApi";
 
 const Index = () => {
     const [users,setUsers]=useState()
+    const [loading,setLoading] =useState(false)
 
     const FetchData=async()=>{
          const data = await GetStuff()
@@ -13,6 +14,7 @@ const Index = () => {
  
     useEffect(()=>{
        FetchData()
+       setLoading(true)
      },[])
  
   
@@ -45,8 +47,7 @@ const Index = () => {
       </thead>
       <tbody>
 
-        {
-          users?.map((item)=>(
+        {loading && users?.map((item)=>(
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
      
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">

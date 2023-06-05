@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import CardMenu from "components/card/CardMenu";
 import Card from "components/card";
-import  {GetCurrentUser}  from "../../../../ApiCalls/api";
+import  { GetStuff}  from "../../../../ApiCalls/StuffApi";
 
 
 const CheckTable = (props) => {
@@ -9,7 +9,7 @@ const CheckTable = (props) => {
   const [users,setUsers]=useState()
 
    const FetchData=async()=>{
-        const data = await GetCurrentUser()
+        const data = await  GetStuff()
         setUsers(data)
    }
 

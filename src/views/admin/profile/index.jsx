@@ -3,7 +3,7 @@ import Card from "components/card";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; 
-import { RegisterUser } from "ApiCalls/api";
+import {  RegisterStuff } from "ApiCalls/StuffApi";
 
 const ProfileOverview = () => {
   const [name, setName] = useState();
@@ -17,7 +17,7 @@ const ProfileOverview = () => {
       password,
       email,
     };
-    const response = await RegisterUser(payload)
+    const response = await  RegisterStuff(payload)
     console.log(response)
       if(response.success == true ){
         toast("Loggined in Succefully !");
