@@ -26,18 +26,18 @@ export const GetStuff =async()=>{
 }
 }
 
-export const deleteStuff  =async({id})=>{
+export const deleteStuff  =async(payload,id)=>{
     try {
-        const response = await axiosInstance.get('/api/stuff/delete-stuff',id)
+        const response = await axiosInstance.get(`/api/stuff/delete-stuff/${id}`,payload)
         return response.data
     }catch(error){
         return error.message
     }
 }
 
-export const UpdateStuff  =async({id})=>{
+export const UpdateStuff  =async(payload,id)=>{
     try {
-        const response = await axiosInstance.get('/api/stuff/update-stuff',id)
+        const response = await axiosInstance.get(`/api/stuff/update-stuff/${id}`,payload)
         return response.data
     }catch(error){
         return error.message
