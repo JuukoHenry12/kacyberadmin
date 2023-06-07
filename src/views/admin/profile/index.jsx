@@ -1,35 +1,33 @@
 import React, { useState } from "react";
 import Card from "components/card";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'; 
-import {  RegisterStuff } from "ApiCalls/StuffApi";
+import "react-toastify/dist/ReactToastify.css";
+import { RegisterStuff } from "ApiCalls/StuffApi";
 
 const ProfileOverview = () => {
   const [name, setName] = useState();
   const [password, setPassword] = useState();
   const [email, setEmail] = useState();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const handleSubmit =async (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const payload = {
       name,
       password,
       email,
     };
-    const response = await  RegisterStuff(payload)
-    
-      if(response.success){
-        toast("Loggined in Succefully !");
-        navigate("/admin/stuff")
-     
-      }else {
-        alert("failed to submit information")
-      }
-      setName("")
-      setEmail("")
-      setPassword("")
+    const response = await RegisterStuff(payload);
+
+    if (response.success) {
+      // toast("user Added Sucessfully");
+      navigate("/admin/stuff");
+    } else {
+      alert("failed to submit information");
+    }
+    setName("");
+    setEmail("");
+    setPassword("");
   };
 
   return (
