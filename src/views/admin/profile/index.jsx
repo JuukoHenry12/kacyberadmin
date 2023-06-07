@@ -10,6 +10,7 @@ const ProfileOverview = () => {
   const [password, setPassword] = useState();
   const [email, setEmail] = useState();
   const navigate = useNavigate()
+
   const handleSubmit =async (event) => {
     event.preventDefault();
     const payload = {
@@ -18,13 +19,13 @@ const ProfileOverview = () => {
       email,
     };
     const response = await  RegisterStuff(payload)
-    console.log(response)
-      if(response.success == true ){
+    
+      if(response.success){
         toast("Loggined in Succefully !");
         navigate("/admin/stuff")
      
       }else {
-        alert("failed to login ")
+        alert("failed to submit information")
       }
       setName("")
       setEmail("")

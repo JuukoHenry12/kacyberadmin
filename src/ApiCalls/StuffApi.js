@@ -1,13 +1,6 @@
 import axiosInstance from "./axiosInstance"
 
-export const RegisterStuff=async(payload)=>{
-    try {
-      const response = await axiosInstance.post('/api/stuff/register-stuff',payload) 
-      return response.data
-    }catch(error){
-        return error.message
-    }
-}
+
 
 export  const LoginStuff=async(payload)=>{
     try {
@@ -17,6 +10,16 @@ export  const LoginStuff=async(payload)=>{
         return error.message
     }
 }
+
+export const RegisterStuff=async(payload)=>{
+    try {
+      const response = await axiosInstance.post('/api/stuff/register-stuff',payload) 
+      return response.data
+    }catch(error){
+        return error.message
+    }
+}
+
 export const GetStuff =async()=>{
     try {
         const response = await axiosInstance.get('/api/stuff/get-Stuff')

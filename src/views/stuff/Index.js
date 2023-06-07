@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import CardMenu from "components/card/CardMenu";
 import Card from "components/card";
 import  {GetStuff}  from "../../ApiCalls/StuffApi";
+import { AiFillDelete,AiFillEdit } from "react-icons/ai";
 
 const Index = () => {
     const [users,setUsers]=useState()
@@ -9,7 +10,7 @@ const Index = () => {
 
     const FetchData=async()=>{
          const data = await GetStuff()
-         setUsers(data)
+         setUsers(data.message)
     }
  
     useEffect(()=>{
@@ -42,12 +43,15 @@ const Index = () => {
               <th scope="col" class="px-6 py-3">
                   Email
               </th>
+              <th scope="col" class="px-6 py-3">
+                  Action
+              </th>
              
           </tr>
       </thead>
       <tbody>
 
-        {loading && users?.map((item)=>(
+        { users?.map((item)=>(
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
      
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -56,7 +60,17 @@ const Index = () => {
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {item.email}
                 </th>
-        
+                <th
+                    scope="row"
+                    class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
+                  >
+            
+                    <div className="flex">
+                        <i href=""><AiFillDelete /></i>
+                        <i href=""> <AiFillEdit /></i>
+                    </div>
+              
+                  </th>
             </tr> 
           ))
         }

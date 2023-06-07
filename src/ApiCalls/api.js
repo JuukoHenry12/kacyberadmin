@@ -9,6 +9,15 @@ export  const RegisterUser=async(payload)=>{
     }
 }
 
+export const GetUser=async()=>{
+     try{
+         const response= await axiosInstance.get('/api/user/get-users')
+         return response.data
+     }catch (error){
+         return error.message
+     }
+}
+
 
 
 

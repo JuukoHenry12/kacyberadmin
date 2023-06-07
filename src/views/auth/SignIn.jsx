@@ -16,9 +16,9 @@ export default function SignIn() {
       password
     };
 
-    const response = await LoginStuff(payload)
-    console.log(response)
-      if(response.success === true ){
+     const response = await LoginStuff(payload)
+     console.log(response)
+      if(response?.success === true){
         toast("Loggined in Succefully !");
         navigate("/admin/data-tables")
      
