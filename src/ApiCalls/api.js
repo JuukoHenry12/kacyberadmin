@@ -18,6 +18,14 @@ export const GetUser=async()=>{
      }
 }
 
+export const DeleteUser = async(id)=>{
+    try {
+          await axiosInstance.delete(`/api/user/delete-user/${id}`)
+        //  return response.data
+    }catch(error){
+        return error.message
+    }
+}
 
 
 

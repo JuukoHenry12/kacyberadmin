@@ -29,9 +29,9 @@ export const GetStuff =async()=>{
 }
 }
 
-export const deleteStuff  =async(payload,id)=>{
+export const DeleteStuff  =async(id)=>{
     try {
-        const response = await axiosInstance.get(`/api/stuff/delete-stuff/${id}`,payload)
+        const response = await axiosInstance.delete(`/api/stuff/delete-stuff/${id}`)
         return response.data
     }catch(error){
         return error.message

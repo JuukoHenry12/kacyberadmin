@@ -16,18 +16,22 @@
     "@testing-library/user-event": "^13.5.0",
     "apexcharts": "3.35.5",
     "axios": "^1.4.0",
+    "file-saver": "^2.0.5",
     "framer-motion": "^7.10.2",
     "react": "^18.2.0",
     "react-apexcharts": "1.4.0",
     "react-calendar": "^3.9.0",
     "react-dom": "^18.2.0",
+    "react-export-table-to-excel": "^1.0.6",
     "react-icons": "^4.9.0",
     "react-router-dom": "^6.4.0",
     "react-scripts": "5.0.1",
     "react-table": "^7.8.0",
     "react-toastify": "^9.1.3",
+    "sheetjs-style": "^0.15.8",
     "tailwindcss-rtl": "^0.9.0",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "xlsx": "^0.18.5"
   },
   "scripts": {
     "start": "react-scripts start",
