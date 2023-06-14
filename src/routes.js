@@ -1,11 +1,21 @@
 import React from "react";
 import DataTables from "views/admin/tables";
 import Profile from "views/admin/profile";
-import Stuff from "views/stuff/Index";
+import Stuff from "views/staff/Index";
 import SignIn from "views/auth/SignIn";
+import Member from "views/member/member";
+import Dashboard from "views/dashboard/Index"
+
 // Icon Imports
-import {MdBarChart,MdLock,MdPerson} from "react-icons/md";
-const routes = [
+import {MdBarChart,MdLock,MdPerson,MdDashboard,MdManageAccounts} from "react-icons/md";
+  const routes = [
+    {
+      name: "Dashboard",
+      layout: "/admin",
+      icon: <MdDashboard className="h-6 w-6" />,
+      path: "dashboard",
+      component: <Dashboard />,
+    },
   {
       name: "Wait List",
       layout: "/admin",
@@ -14,19 +24,28 @@ const routes = [
       component: <DataTables />,
     },
     {
-      name: "Add Stuff",
+      name: "Member",
+      layout: "/admin",
+      path: "member",
+      icon: <MdManageAccounts className="h-6 w-6" />,
+      component: <Member  />,
+    },
+    {
+      name: "Add Staff",
       layout: "/admin",
       path: "profile",
       icon: <MdPerson className="h-6 w-6" />,
       component: <Profile />,
     },
+   
     {
-      name: "Stuff",
+      name: "Staff",
       layout: "/admin",
-      path: "stuff",
+      path: "staff",
       icon: <MdPerson className="h-6 w-6" />,
       component: <Stuff  />,
     },
+  
  
    {
     name: "Logout",
