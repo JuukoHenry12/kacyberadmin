@@ -20,7 +20,7 @@ export default function SignIn() {
    
       if(response.success ){
         toast("Loggined in Succefully !");
-        navigate("/admin/data-tables")
+        navigate("/admin/dashboard")
      
       }else {
         alert("failed to login ")
