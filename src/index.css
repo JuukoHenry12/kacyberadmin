@@ -12,7 +12,9 @@
 		letter-spacing: -0.5px;
 	}
 }
-
+*{
+	color: black;
+}
 input.defaultCheckbox::before {
 	content: url(../src/assets/svg/checked.svg); 
 	color: white;

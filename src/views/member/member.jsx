@@ -4,16 +4,20 @@ import Card from "components/card";
 import  {GetStuff}  from "../../ApiCalls/StuffApi";
 import { AiFillDelete,AiFillEdit } from "react-icons/ai";
 import { DeleteUser } from "ApiCalls/api";
-import { BsMenuButtonWideFill } from "react-icons/bs";
+import { Form, Modal,Input, message } from "antd";
+import { Addmember } from "ApiCalls/member";
 
 const Index = () => {
     const [users,setUsers]=useState()
     const [loading,setLoading] =useState(false)
+    const [visible, setVisible] = useState(false);
 
     const FetchData=async()=>{
          const data = await GetStuff()
          setUsers(data.message)
     }
+
+    
  
     useEffect(()=>{
        FetchData()
@@ -34,7 +38,25 @@ const Index = () => {
             console.log(errror)
         }
      }
+
+     const handleOk = () => {
+        setVisible(false);
+      };
+    
+      const handleCancel = () => {
+        setVisible(false);
+      };
  
+    
+      const handleSubmit=async(values)=>{
+          const response = await  Addmember(values)
+          if(response.success){
+              message.success(response.message)
+          }else {
+             alert("failed to submit Data")
+          }
+      }
+
   
   return (
     <Card extra={"w-full sm:overflow-auto p-4"}>
@@ -44,14 +66,60 @@ const Index = () => {
         Member
       </div>
 
-      <CardMenu />
+
     </header>
      <div className="flex justify-end">
         <button   className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
-          data-modal-target="authentication-modal" data-modal-toggle="authentication-modal"
+           onClick={()=>setVisible(true)}
         > 
             Add Card Member
         </button>
+        <Modal
+           title="Add  Card Member"
+            visible={visible}
+            onOk={handleOk}
+            onCancel={handleCancel}
+            centered
+            okText="Add Card Member"
+        >
+        
+             <Form onSubmit={handleSubmit}>
+                 <Form.Item label="First Name" name="FirstName"
+                    rules={[{ required: true, message: 'Please input your FirstName' }]}
+                 >
+                    <Input
+                     />
+                 </Form.Item>
+                 <Form.Item label="SurName" name="SurName"
+                         rules={[{ required: true, message: 'Please input your SurName' }]}
+                 >
+                    <Input 
+                     />
+                 </Form.Item>
+                 <Form.Item 
+                    label="Email"
+                    name="email"
+                    rules={[{ required: true, message: 'Please input your Email' }]}
+                 >
+                    <Input
+                     />
+                 </Form.Item>
+                 <Form.Item label="PhoneNumber" name="PhoneNumber"
+                    rules={[{ required: true, message: 'Please input your Email' }]}
+                 >
+                    <Input
+                     />
+                 </Form.Item>
+                 <Form.Item label="NinNumber" name="NinNumber"
+                  rules={[{ required: true, message: 'Please input your NinNumber' }]}
+                 >
+                    <Input
+                     />
+                 </Form.Item>
+             </Form>
+         
+        </Modal>
+        
      </div>
     <div className="mt-8 overflow-x-scroll xl:overflow-x-hidden">
     
@@ -68,14 +136,17 @@ const Index = () => {
                   Email
               </th>
               <th scope="col" class="px-6 py-3">
-                  Action
+                    PhoneNumber
+              </th>
+              <th scope="col" class="px-6 py-3">
+                    NinNumber
               </th>
              
           </tr>
       </thead>
       <tbody>
 
-        { users?.map((item)=>(
+        {/* { users?.map((item)=>(
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" >
      
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -99,7 +170,7 @@ const Index = () => {
                   </th>
             </tr> 
           ))
-        }
+        } */}
        
       </tbody>
   </table>
