@@ -3,12 +3,17 @@ import { LoginStuff } from "../../ApiCalls/StuffApi";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useDispatch } from 'react-redux'
+import { setLoader } from "../../redux/loaderSlice";
+import { message } from "antd";
 
 export default function SignIn() {
   const [email, setEmail] = useState();
   const [password,setPassword] = useState();
  
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const payload = {
@@ -16,15 +21,22 @@ export default function SignIn() {
       password
     };
 
-     const response = await LoginStuff(payload)
-   
-      if(response.success ){
-        toast("Loggined in Succefully !");
-        navigate("/admin/dashboard")
-     
-      }else {
-        alert("failed to login ")
-      }
+     try{  
+          dispatch(setLoader(true))
+          const response = await LoginStuff(payload)
+          dispatch(setLoader(false))
+          if(response.success ){
+            message.success(response.message)
+            localStorage.setItem("token",response.token)
+            navigate("/admin/dashboard")
+        
+          }else {
+            throw new Error(response.message)
+          }
+     }catch(error){
+          dispatch(setLoader(false))
+          message.error(error.message)
+     }
   };
 
   return (
