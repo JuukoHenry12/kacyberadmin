@@ -69,6 +69,7 @@ const Index = () => {
       dispatch(setLoader(false))
       if (response.success) {
         message.success(response.message)
+        FetchData()
       } else {
         message.error(response.message)
       }
@@ -140,7 +141,7 @@ const Index = () => {
               </tr>
             </thead>
             <tbody>
-              {members?.map((item)=>(
+              {loading && members?.map((item,index)=>(
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={item._id} >
      
                 <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -160,7 +161,7 @@ const Index = () => {
                     class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
                   >
                     <div className="flex">
-                        <i onClick={deletemembers}><AiFillDelete/></i>
+                        <i onClick={(event)=>deletemembers(item._id,event)}><AiFillDelete/></i>
                     </div>
               
                   </th>

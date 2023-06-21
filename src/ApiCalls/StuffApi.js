@@ -32,6 +32,7 @@ export const GetStuff =async()=>{
 export const DeleteStuff  =async(id)=>{
     try {
         const response = await axiosInstance.delete(`/api/stuff/delete-stuff/${id}`)
+        
         return response.data
     }catch(error){
         return error.message
@@ -55,3 +56,4 @@ export const CountStuff=async()=>{
         return error.message
     }
 }
+

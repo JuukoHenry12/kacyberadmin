@@ -4,12 +4,17 @@ import Card from "components/card";
 import { GetUser,DeleteUser} from "../../../../ApiCalls/api";
 import { AiFillDelete  } from "react-icons/ai";
 import { DownloadTableExcel } from 'react-export-table-to-excel';
+import { useDispatch } from "react-redux";
+import { setLoader } from "redux/loaderSlice";
+import { message } from "antd";
 
 
 const CheckTable = (props) => {
     const [users, setUsers] = useState();
     const tableRef = useRef(null);
      const [search,setSearch]=useState()
+
+     const dispatch = useDispatch()
 
     const FetchData = async () => {
       const data = await GetUser();
@@ -33,6 +38,22 @@ const CheckTable = (props) => {
 
     const handleSearch = (event) => {
       setSearch(event.target.value);
+    };
+
+
+    const deleteUser= async (id) => {
+      try {
+        dispatch(setLoader(true))
+        const response = await DeleteUser(id);
+        dispatch(setLoader(false))
+        if (response.success) {
+          message.success(response.message)
+        } else {
+          message.error(response.message)
+        }
+      } catch (error) {
+        message.error(error.message)
+      }
     };
 
  
@@ -102,7 +123,7 @@ const CheckTable = (props) => {
             </thead>
             <tbody>
               {users?.map((item) => (
-                <tr className="border-b bg-white dark:border-gray-700 dark:bg-gray-800" key={item.id}>
+                <tr className="border-b bg-white dark:border-gray-700 dark:bg-gray-800" key={item._id}>
                   <th
                     scope="row"
                     className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
@@ -140,7 +161,7 @@ const CheckTable = (props) => {
                   >
             
                     <div className="flex">
-                        <i  onClick={handleOnClick}><AiFillDelete /></i>
+                        <i  onClick={ deleteUser(item._id)}><AiFillDelete /></i>
                      
                     </div>
               

@@ -31,7 +31,7 @@ export default function SignIn() {
             navigate("/admin/dashboard")
         
           }else {
-            throw new Error(response.message)
+            message.error(response.message)
           }
      }catch(error){
           dispatch(setLoader(false))
