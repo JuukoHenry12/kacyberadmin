@@ -47,3 +47,11 @@ export const UpdateStuff  =async(payload,id)=>{
     }
 }
 
+export const CountStuff=async()=>{
+    try{
+        const response= await axiosInstance.get('/api/stuff/get-stuffcount')
+        return response.data
+    }catch (error){
+        return error.message
+    }
+}

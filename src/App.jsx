@@ -9,8 +9,9 @@ const App = () => {
   const { loading } = useSelector((state) => state.loaders);
   return (
       <div>
-          {loading && <Spinner />}
+           {loading && <Spinner />}
           <Routes>
+        
             <Route path="auth/*" element={<AuthLayout />} />
             <Route path="admin/*" element={<AdminLayout />} />
           </Routes>

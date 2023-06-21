@@ -17,11 +17,19 @@ export const Getmember=async()=>{
          return error.message
      }
 }
+export const Countmember=async()=>{
+    try{
+        const response= await axiosInstance.get('/api/member/get-membercount')
+        return response.data
+    }catch (error){
+        return error.message
+    }
+}
 
 export const DeleteMember = async(id)=>{
    
     try {
-       const response=  await axiosInstance.delete(`/api/user/delete-member/${id}`)
+       const response=  await axiosInstance.delete(`/api/member/delete-member/${id}`)
        
        return response.data
 

@@ -1,21 +1,25 @@
 import React, { useEffect, useState, useRef } from "react";
 import Card from "components/card";
-import { GetStuff } from "../../ApiCalls/StuffApi";
+import { Getmember } from "../../ApiCalls/member";
 import { DeleteUser } from "ApiCalls/api";
 import { Form, Modal, Input, message } from "antd";
-import { Addmember } from "ApiCalls/member";
+import { Addmember } from "../../ApiCalls/member";
 import { useDispatch } from "react-redux";
 import { setLoader } from "../../redux/loaderSlice";
+import { DeleteMember} from '../../ApiCalls/member'
+import {AiFillDelete } from "react-icons/ai"
 
 const Index = () => {
-  const [users, setUsers] = useState();
+  const [members, setMember] = useState();
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
   const dispatch = useDispatch();
+  const [form] = Form.useForm();
 
   const FetchData = async () => {
-    const data = await GetStuff();
-    setUsers(data.message);
+    const member = await Getmember();
+     console.log(member)
+     setMember(member.member);
   };
 
   useEffect(() => {
@@ -23,18 +27,7 @@ const Index = () => {
     setLoading(true);
   }, []);
 
-  const deleteUser = async (id) => {
-    try {
-      const response = await DeleteUser(id);
-      if (response.success) {
-        alert("user has been deleted");
-      } else {
-        alert("failed to delete user");
-      }
-    } catch (errror) {
-      console.log(errror);
-    }
-  };
+ 
 
   const handleOk = () => {
     setVisible(false);
@@ -55,16 +48,32 @@ const Index = () => {
   const handleSubmit = async (values) => {
     try {
       dispatch(setLoader(true));
-      const response = await Addmember(values);
-      dispatch(setLoader(false));
+       const response = await Addmember(values);
+       dispatch(setLoader(false));
+       setVisible(false)
       if (response.success) {
         message.success(response.message);
+        FetchData()
       } else {
         message.error(response.message);
       }
     } catch (error) {
       dispatch(setLoader(false));
       message.error(error, message);
+    }
+  };
+  const deletemembers= async (_id) => {
+    try {
+      dispatch(setLoader(true))
+      const response = await DeleteMember(_id);
+      dispatch(setLoader(false))
+      if (response.success) {
+        message.success(response.message)
+      } else {
+        message.error(response.message)
+      }
+    } catch (error) {
+      message.error(error.message)
     }
   };
 
@@ -86,23 +95,20 @@ const Index = () => {
           title="Add  Card Member"
           visible={visible}
           onCancel={handleCancel}
-          centered
           okText="Add Card Member"
-          onOk={() => {
-            formRef.current.submit();
-          }}
+          onOk={form.submit}  
         >
-          <Form onSubmit={handleSubmit}>
-            <Form.Item label="First Name" name="FirstName" rules={rules}>
+          <Form form={form} onFinish={handleSubmit}>
+            <Form.Item label="First Name" name="firstname" rules={rules}>
               <Input />
             </Form.Item>
-            <Form.Item label="SurName" name="SurName" rules={rules}>
+            <Form.Item label="SurName" name="surname" rules={rules}>
               <Input />
             </Form.Item>
             <Form.Item label="Email" name="email" rules={rules}>
               <Input />
             </Form.Item>
-            <Form.Item label="PhoneNumber" name="PhoneNumber" rules={rules}>
+            <Form.Item label="PhoneNumber" name="phoneNumber" rules={rules}>
               <Input />
             </Form.Item>
             <Form.Item label="NinNumber" name="NinNumber" rules={rules}>
@@ -126,61 +132,66 @@ const Index = () => {
                   PhoneNumber
                 </th>
                 <th scope="col" class="px-6 py-3">
-                  NinNumber
+                  Nin Number
+                </th>
+                <th scope="col" class="px-6 py-3">
+                 Action
                 </th>
               </tr>
             </thead>
             <tbody>
-              {/* { users?.map((item)=>(
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" >
+              {members?.map((item)=>(
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={item._id} >
      
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {item.name}  
+                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {item.firstname}  {item.surname}  
                 </th>
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {item.email}
+                </th>
+                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {item.phoneNumber}
+                </th>
+                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {item.NinNumber}
                 </th>
                 <th
                     scope="row"
                     class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
                   >
-            
                     <div className="flex">
-                        <i href=""><AiFillDelete 
-                          onClick={()=>deleteUser}
-                        /></i>
-                     
+                        <i onClick={deletemembers}><AiFillDelete/></i>
                     </div>
               
                   </th>
             </tr> 
           ))
-        } */}
+        }
             </tbody>
           </table>
           <nav
-            class="flex items-center justify-between pt-4"
+           className="flex items-center justify-between pt-4"
             aria-label="Table navigation"
           >
-            <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
+            <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
               Showing{" "}
-              <span class="font-semibold text-gray-900 dark:text-white">
+              <span className="font-semibold text-gray-900 dark:text-white">
                 1-10
               </span>{" "}
               of{" "}
-              <span class="font-semibold text-gray-900 dark:text-white">
+              <span className="font-semibold text-gray-900 dark:text-white">
                 1000
               </span>
             </span>
-            <ul class="inline-flex items-center -space-x-px">
+            <ul className="inline-flex items-center -space-x-px">
               <li>
                 <a
                   href="#"
-                  class="ml-0 block rounded-l-lg border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                 className="ml-0 block rounded-l-lg border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                 >
-                  <span class="sr-only">Previous</span>
+                  <span className="sr-only">Previous</span>
                   <svg
-                    class="h-5 w-5"
+                   className="h-5 w-5"
                     aria-hidden="true"
                     fill="currentColor"
                     viewBox="0 0 20 20"
@@ -197,7 +208,7 @@ const Index = () => {
               <li>
                 <a
                   href="#"
-                  class="border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                 className="border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                 >
                   1
                 </a>
@@ -205,7 +216,7 @@ const Index = () => {
               <li>
                 <a
                   href="#"
-                  class="border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                 className="border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                 >
                   2
                 </a>
@@ -214,7 +225,7 @@ const Index = () => {
                 <a
                   href="#"
                   aria-current="page"
-                  class="z-10 border border-blue-300 bg-blue-50 px-3 py-2 leading-tight text-blue-600 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
+                 className="z-10 border border-blue-300 bg-blue-50 px-3 py-2 leading-tight text-blue-600 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
                 >
                   3
                 </a>
@@ -222,7 +233,7 @@ const Index = () => {
               <li>
                 <a
                   href="#"
-                  class="border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                 className="border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                 >
                   ...
                 </a>
@@ -230,7 +241,7 @@ const Index = () => {
               <li>
                 <a
                   href="#"
-                  class="border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                  className="border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                 >
                   100
                 </a>
@@ -238,11 +249,11 @@ const Index = () => {
               <li>
                 <a
                   href="#"
-                  class="block rounded-r-lg border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                  className="block rounded-r-lg border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                 >
-                  <span class="sr-only">Next</span>
+                  <span className="sr-only">Next</span>
                   <svg
-                    class="h-5 w-5"
+                    className="h-5 w-5"
                     aria-hidden="true"
                     fill="currentColor"
                     viewBox="0 0 20 20"
