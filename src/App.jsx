@@ -12,7 +12,7 @@ const App = () => {
            {loading && <Spinner />}
           <Routes>
         
-            <Route path="auth/*" element={<AuthLayout />} />
+            <Route path="/" element={<AuthLayout />} />
             <Route path="admin/*" element={<AdminLayout />} />
           </Routes>
       </div>
