@@ -17,6 +17,16 @@ export const GetUser=async()=>{
          return error.message
      }
 }
+
+export const GetPaidCardsUsers=async()=>{
+     try{
+        const response= await axiosInstance.get('/api/cardpayment/get-cardusers')
+        return response.data
+
+     }catch(error){
+        return error.message
+     }
+}
 export const CountUsers=async()=>{
     try{
         const response= await axiosInstance.get('/api/user/get-users-count')

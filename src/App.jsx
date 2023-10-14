@@ -8,7 +8,7 @@ import Spinner from "components/Spinner/Spinner";
 const App = () => {
   const { loading } = useSelector((state) => state.loaders);
   return (
-      <div>
+      <div> 
            {loading && <Spinner />}
           <Routes>
         

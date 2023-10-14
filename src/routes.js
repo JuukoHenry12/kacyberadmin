@@ -4,6 +4,7 @@ import Profile from "views/admin/profile";
 import Stuff from "views/staff/Index";
 import SignIn from "views/auth/SignIn";
 import Member from "views/member/member";
+import CardPayment from "views/CardPayment/Index";
 import Dashboard from "views/dashboard/Index";
 
 // Icon Imports
@@ -30,12 +31,20 @@ const routes = [
     component: <Member />,
   },
   {
+    name: "Card Payment",
+    layout: "/admin",
+    path: "payment",
+    icon: <MdPerson className="h-6 w-6" />,
+    component: <CardPayment />,
+  },
+  {
     name: "Wait List",
     layout: "/admin",
     icon: <MdBarChart className="h-6 w-6" />,
     path: "data-tables",
     component: <DataTables />,
   },
+
 
   {
     name: "Add Staff",
@@ -44,10 +53,9 @@ const routes = [
     icon: <MdPerson className="h-6 w-6" />,
     component: <Profile />,
   },
-
   {
     name: "Staff",
-    layout: "/admin",
+    layout: "/",
     path: "staff",
     icon: <MdPerson className="h-6 w-6" />,
     component: <Stuff />,

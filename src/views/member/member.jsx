@@ -6,8 +6,8 @@ import { Form, Modal, Input, message } from "antd";
 import { Addmember } from "../../ApiCalls/member";
 import { useDispatch } from "react-redux";
 import { setLoader } from "../../redux/loaderSlice";
-import { DeleteMember} from '../../ApiCalls/member'
-import {AiFillDelete } from "react-icons/ai"
+import { DeleteMember } from "../../ApiCalls/member";
+import { AiFillDelete } from "react-icons/ai";
 
 const Index = () => {
   const [members, setMember] = useState();
@@ -18,16 +18,14 @@ const Index = () => {
 
   const FetchData = async () => {
     const member = await Getmember();
-     console.log(member)
-     setMember(member.member);
+    console.log(member);
+    setMember(member.member);
   };
 
   useEffect(() => {
     FetchData();
     setLoading(true);
   }, []);
-
- 
 
   const handleOk = () => {
     setVisible(false);
@@ -48,12 +46,12 @@ const Index = () => {
   const handleSubmit = async (values) => {
     try {
       dispatch(setLoader(true));
-       const response = await Addmember(values);
-       dispatch(setLoader(false));
-       setVisible(false)
+      const response = await Addmember(values);
+      dispatch(setLoader(false));
+      setVisible(false);
       if (response.success) {
         message.success(response.message);
-        FetchData()
+        FetchData();
       } else {
         message.error(response.message);
       }
@@ -62,19 +60,19 @@ const Index = () => {
       message.error(error, message);
     }
   };
-  const deletemembers= async (_id) => {
+  const deletemembers = async (_id) => {
     try {
-      dispatch(setLoader(true))
+      dispatch(setLoader(true));
       const response = await DeleteMember(_id);
-      dispatch(setLoader(false))
+      dispatch(setLoader(false));
       if (response.success) {
-        message.success(response.message)
-        FetchData()
+        message.success(response.message);
+        FetchData();
       } else {
-        message.error(response.message)
+        message.error(response.message);
       }
     } catch (error) {
-      message.error(error.message)
+      message.error(error.message);
     }
   };
 
@@ -97,7 +95,7 @@ const Index = () => {
           visible={visible}
           onCancel={handleCancel}
           okText="Add Card Member"
-          onOk={form.submit}  
+          onOk={form.submit}
         >
           <Form form={form} onFinish={handleSubmit}>
             <Form.Item label="First Name" name="firstname" rules={rules}>
@@ -136,42 +134,57 @@ const Index = () => {
                   Nin Number
                 </th>
                 <th scope="col" class="px-6 py-3">
-                 Action
+                  Action
                 </th>
               </tr>
             </thead>
             <tbody>
-              {loading && members?.map((item,index)=>(
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={item._id} >
-     
-                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {item.firstname}  {item.surname}  
-                </th>
-                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {item.email}
-                </th>
-                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {item.phoneNumber}
-                </th>
-                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {item.NinNumber}
-                </th>
-                <th
-                    scope="row"
-                    class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
+              {loading &&
+                members?.map((item, index) => (
+                  <tr
+                    class="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+                    key={item._id}
                   >
-                    <div className="flex">
-                        <i onClick={(event)=>deletemembers(item._id,event)}><AiFillDelete/></i>
-                    </div>
-              
-                  </th>
-            </tr> 
-          ))
-        }
+                    <th
+                      scope="row"
+                      className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
+                    >
+                      {item.firstname} {item.surname}
+                    </th>
+                    <th
+                      scope="row"
+                      className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
+                    >
+                      {item.email}
+                    </th>
+                    <th
+                      scope="row"
+                      className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
+                    >
+                      {item.phoneNumber}
+                    </th>
+                    <th
+                      scope="row"
+                      className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
+                    >
+                      {item.NinNumber}
+                    </th>
+                    <th
+                      scope="row"
+                      class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
+                    >
+                      <div className="flex">
+                        <i onClick={(event) => deletemembers(item._id, event)}>
+                          <AiFillDelete />
+                        </i>
+                      </div>
+                    </th>
+                  </tr>
+                ))}
             </tbody>
           </table>
           <nav
-           className="flex items-center justify-between pt-4"
+            className="flex items-center justify-between pt-4"
             aria-label="Table navigation"
           >
             <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
@@ -188,11 +201,11 @@ const Index = () => {
               <li>
                 <a
                   href="#"
-                 className="ml-0 block rounded-l-lg border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                  className="ml-0 block rounded-l-lg border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                 >
                   <span className="sr-only">Previous</span>
                   <svg
-                   className="h-5 w-5"
+                    className="h-5 w-5"
                     aria-hidden="true"
                     fill="currentColor"
                     viewBox="0 0 20 20"
@@ -209,7 +222,7 @@ const Index = () => {
               <li>
                 <a
                   href="#"
-                 className="border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                  className="border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                 >
                   1
                 </a>
@@ -217,7 +230,7 @@ const Index = () => {
               <li>
                 <a
                   href="#"
-                 className="border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                  className="border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                 >
                   2
                 </a>
@@ -226,7 +239,7 @@ const Index = () => {
                 <a
                   href="#"
                   aria-current="page"
-                 className="z-10 border border-blue-300 bg-blue-50 px-3 py-2 leading-tight text-blue-600 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
+                  className="z-10 border border-blue-300 bg-blue-50 px-3 py-2 leading-tight text-blue-600 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
                 >
                   3
                 </a>
@@ -234,7 +247,7 @@ const Index = () => {
               <li>
                 <a
                   href="#"
-                 className="border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                  className="border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                 >
                   ...
                 </a>
