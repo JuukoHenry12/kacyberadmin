@@ -35,11 +35,11 @@ const Index = () => {
   return (
     <div className="mt-4">
       <div className="col-3 mt-3 flex gap-3">
-            <Widget
+            {/* <Widget
               icon={<MdBarChart className="h-7 w-7" />}
               title={"Amount CardPayments"}
               subtitle={usersCount}
-            />
+            /> */}
             <Widget
               icon={<MdBarChart className="h-7 w-7" />}
               title={"Waiting List Users"}

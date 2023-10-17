@@ -55,7 +55,7 @@ const routes = [
   },
   {
     name: "Staff",
-    layout: "/",
+    layout: "/admin",
     path: "staff",
     icon: <MdPerson className="h-6 w-6" />,
     component: <Stuff />,
@@ -64,7 +64,7 @@ const routes = [
   {
     name: "Logout",
     layout: "/auth",
-    path: "sign-in",
+    path: "",
     icon: <MdLock className="h-6 w-6" />,
     component: <SignIn />,
   },

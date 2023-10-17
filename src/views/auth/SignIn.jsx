@@ -24,6 +24,7 @@ export default function SignIn() {
      try{  
           dispatch(setLoader(true))
           const response = await LoginStuff(payload)
+          console.log(response)
           dispatch(setLoader(false))
           if(response.success ){
             message.success(response.message)
