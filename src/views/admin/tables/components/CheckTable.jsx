@@ -124,7 +124,9 @@ const CheckTable = (props) => {
                 <th scope="col" className="px-6 py-3">
                   Pick Up Area
                 </th>
-               
+                <th scope="col" className="px-6 py-3">
+                 Status
+                </th>
                 <th scope="col" className="px-6 py-3">
                   Action
                 </th>

@@ -24,6 +24,13 @@ const routes = [
     component: <Dashboard />,
   },
   {
+    name: "Wait List",
+    layout: "/admin",
+    icon: <MdBarChart className="h-6 w-6" />,
+    path: "data-tables",
+    component: <DataTables />,
+  },
+  {
     name: "Card Member",
     layout: "/admin",
     path: "member",
@@ -37,15 +44,6 @@ const routes = [
     icon: <MdPerson className="h-6 w-6" />,
     component: <CardPayment />,
   },
-  {
-    name: "Wait List",
-    layout: "/admin",
-    icon: <MdBarChart className="h-6 w-6" />,
-    path: "data-tables",
-    component: <DataTables />,
-  },
-
-
   {
     name: "Add Staff",
     layout: "/admin",
@@ -61,12 +59,5 @@ const routes = [
     component: <Stuff />,
   },
 
-  {
-    name: "Logout",
-    layout: "/auth",
-    path: "",
-    icon: <MdLock className="h-6 w-6" />,
-    component: <SignIn />,
-  },
 ];
 export default routes;

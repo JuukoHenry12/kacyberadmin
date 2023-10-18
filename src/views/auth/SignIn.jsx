@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch } from 'react-redux'
 import { setLoader } from "../../redux/loaderSlice";
 import { message } from "antd";
+import logo from "../../assets/img/logo.png"
 
 export default function SignIn() {
   const [email, setEmail] = useState();
@@ -45,10 +46,10 @@ export default function SignIn() {
       {/* Sign in section */}
       <div className="mt-[10vh] w-[500px] max-w-full flex-col items-center md:pl-4 lg:pl-0 xl:max-w-[620px]">
           <ToastContainer />
-        <h4 className="mb-2.5 text-center text-4xl font-bold text-navy-700 dark:text-white ">
+        {/* <h4 className="mb-2.5 text-center text-4xl font-bold text-navy-700 dark:text-white ">
           Kacyber
-        </h4>
-    
+        </h4> */}
+        <img src={logo} alt="not found" width={"300px"} height={"300px"} className="mx-auto"/>
         <form onSubmit={handleSubmit}>
           <div class="mb-6">
             <label

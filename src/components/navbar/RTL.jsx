@@ -51,6 +51,7 @@ const Navbar = (props) => {
         <div className="flex h-full items-center rounded-full bg-lightPrimary text-navy-700 dark:bg-navy-900 dark:text-white xl:w-[225px]">
           <p className="text-xl pe-2 ps-3">
             <FiSearch className="h-4 w-4 text-gray-400 dark:text-white" />
+     
           </p>
           <input
             type="text"

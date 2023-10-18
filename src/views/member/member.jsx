@@ -8,26 +8,61 @@ import { useDispatch } from "react-redux";
 import { setLoader } from "../../redux/loaderSlice";
 import { DeleteMember } from "../../ApiCalls/member";
 import { AiFillDelete } from "react-icons/ai";
+import { GetUser } from "ApiCalls/api";
+import Select from "react-select";
 
 const Index = () => {
   const [members, setMember] = useState();
+  const [user, setUser] = useState();
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
   const dispatch = useDispatch();
   const [form] = Form.useForm();
+  const [selectedUser, setSelectedUser] = useState(null);
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5; // Number of items to display per page
   const maxRecords = 10; // Maximum number of records to display
 
+  const options = [
+    {
+      label: "Wallet Card",
+      value: "WalletCard",
+    },
+    {
+      label: "Crubs",
+      value: "CrubsCard",
+    },
+    {
+      label: "Key Holder",
+      value: "KeyHolder",
+    },
+    {
+      label: "Blue Watch",
+      value: "BlueWatch",
+    },
+  ];
   const FetchData = async () => {
     const member = await Getmember();
     console.log(member);
     setMember(member.member);
   };
 
+  const GetWishList = async () => {
+    const user2 = await GetUser();
+
+    //  console.log("user2",user2.user)
+    const usersData = user2.user?.map((user) => ({
+      value: user._id,
+      label: `${user.firstname} ${user.surname}`,
+    }));
+    setUser(usersData);
+    // console.log("usr",usersData)
+  };
+
   useEffect(() => {
     FetchData();
+    GetWishList();
     setLoading(true);
   }, []);
 
@@ -48,21 +83,22 @@ const Index = () => {
   const formRef = useRef(null);
 
   const handleSubmit = async (values) => {
-    try {
-      dispatch(setLoader(true));
-      const response = await Addmember(values);
-      dispatch(setLoader(false));
-      setVisible(false);
-      if (response.success) {
-        message.success(response.message);
-        FetchData();
-      } else {
-        message.error(response.message);
-      }
-    } catch (error) {
-      dispatch(setLoader(false));
-      message.error(error, message);
-    }
+    console.log("add user",values)
+    // try {
+    //   dispatch(setLoader(true));
+    //   const response = await Addmember(values);
+    //   dispatch(setLoader(false));
+    //   setVisible(false);
+    //   if (response.success) {
+    //     message.success(response.message);
+    //     FetchData();
+    //   } else {
+    //     message.error(response.message);
+    //   }
+    // } catch (error) {
+    //   dispatch(setLoader(false));
+    //   message.error(error, message);
+    // }
   };
   const deletemembers = async (_id) => {
     try {
@@ -89,7 +125,7 @@ const Index = () => {
     <Card extra={"w-full sm:overflow-auto p-4"}>
       <header className="relative flex items-center justify-between">
         <div className="text-xl font-bold text-navy-700 dark:text-white">
-          Member
+          Assign Card to User
         </div>
       </header>
       <div className="flex justify-end">
@@ -97,30 +133,52 @@ const Index = () => {
           className="mr-2 mb-2 rounded-full bg-gray-800 px-5 py-2.5 text-sm font-medium text-white hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
           onClick={() => setVisible(true)}
         >
-          Add Card Member
+          Assign Card to User
         </button>
         <Modal
-          title="Add  Card Member"
+          title="Assign   Card to User"
           visible={visible}
           onCancel={handleCancel}
           okText="Add Card Member"
           onOk={form.submit}
         >
           <Form form={form} onFinish={handleSubmit}>
-            <Form.Item label="First Name" name="firstname" rules={rules}>
-              <Input />
-            </Form.Item>
-            <Form.Item label="SurName" name="surname" rules={rules}>
-              <Input />
-            </Form.Item>
-            <Form.Item label="Email" name="email" rules={rules}>
-              <Input />
+            <Form.Item
+              label="Select a User to Assign Card to"
+              name="name"
+              rules={rules}
+            >
+              <Select
+                className="react-select-container" // Customize styling as needed
+                options={user}
+                placeholder="Select a user..."
+                onChange={(selectedOption) => {
+                  setSelectedUser(selectedOption);
+                  // Autofill phone number input with the selected user's phone number
+                  form.setFieldsValue({ phoneNumber: selectedOption ? selectedOption.phoneNumber : undefined });
+                }}
+              />
             </Form.Item>
             <Form.Item label="PhoneNumber" name="phoneNumber" rules={rules}>
               <Input />
             </Form.Item>
-            <Form.Item label="NinNumber" name="NinNumber" rules={rules}>
+            <Form.Item
+              label="Enter Last 3 digitals Card Number"
+              name="cardnumber"
+              rules={rules}
+            >
               <Input />
+            </Form.Item>
+
+            <Form.Item label="Issued By" name="IssuedBy" rules={rules}>
+              <Input />
+            </Form.Item>
+            <Form.Item label="Select Card Type" name="cardType" rules={rules}>
+              <select className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500">
+                {options.map((item) => (
+                  <option key={item.value}>{item.label} </option>
+                ))}
+              </select>
             </Form.Item>
           </Form>
         </Modal>
@@ -192,24 +250,29 @@ const Index = () => {
                 ))}
             </tbody>
           </table>
-          <nav className="flex items-center justify-between pt-4" aria-label="Table navigation">
+          <nav
+            className="flex items-center justify-between pt-4"
+            aria-label="Table navigation"
+          >
             <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
               Showing{" "}
               <span className="font-semibold text-gray-900 dark:text-white">
                 {indexOfFirstItem + 1}-{Math.min(indexOfLastItem, maxRecords)}
               </span>{" "}
               of{" "}
-              <span className="font-semibold text-gray-900 dark:text-white">{maxRecords}</span>
+              <span className="font-semibold text-gray-900 dark:text-white">
+                {maxRecords}
+              </span>
             </span>
             <ul className="inline-flex items-center -space-x-px">
               <li>
                 <a
                   href="#"
-                  className="block px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover-bg-gray-700 dark:hover-text-white"
+                  className="dark:hover-bg-gray-700 dark:hover-text-white ml-0 block rounded-l-lg border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400"
                 >
                   <span className="sr-only">Previous</span>
                   <svg
-                    className="w-5 h-5"
+                    className="h-5 w-5"
                     aria-hidden="true"
                     fill="currentColor"
                     viewBox="0 0 20 20"
@@ -223,29 +286,31 @@ const Index = () => {
                   </svg>
                 </a>
               </li>
-              {Array.from({ length: Math.ceil(maxRecords / itemsPerPage) }).map((_, index) => (
-                <li key={index}>
-                  <a
-                    href="#"
-                    className={`px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 ${
-                      currentPage === index + 1
-                        ? "bg-blue-50 text-blue-600 border-blue-300 hover-bg-blue-100 hover-text-blue-700 dark-border-gray-700 dark-bg-gray-700 dark-text-white"
-                        : "hover-bg-gray-100 hover-text-gray-700 dark-hover-bg-gray-700 dark-hover-text-white dark-border-gray-700 dark-text-gray-400"
-                    }`}
-                    onClick={() => setCurrentPage(index + 1)}
-                  >
-                    {index + 1}
-                  </a>
-                </li>
-              ))}
+              {Array.from({ length: Math.ceil(maxRecords / itemsPerPage) }).map(
+                (_, index) => (
+                  <li key={index}>
+                    <a
+                      href="#"
+                      className={`border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 ${
+                        currentPage === index + 1
+                          ? "hover-bg-blue-100 hover-text-blue-700 dark-border-gray-700 dark-bg-gray-700 dark-text-white border-blue-300 bg-blue-50 text-blue-600"
+                          : "hover-bg-gray-100 hover-text-gray-700 dark-hover-bg-gray-700 dark-hover-text-white dark-border-gray-700 dark-text-gray-400"
+                      }`}
+                      onClick={() => setCurrentPage(index + 1)}
+                    >
+                      {index + 1}
+                    </a>
+                  </li>
+                )
+              )}
               <li>
                 <a
                   href="#"
-                  className="block px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover-bg-gray-100 hover-text-gray-700 dark-bg-gray-800 dark-border-gray-700 dark-text-gray-400 dark-hover-bg-gray-700 dark-hover-text-white"
+                  className="hover-bg-gray-100 hover-text-gray-700 dark-bg-gray-800 dark-border-gray-700 dark-text-gray-400 dark-hover-bg-gray-700 dark-hover-text-white block rounded-r-lg border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500"
                 >
                   <span className="sr-only">Next</span>
                   <svg
-                    className="w-5 h-5"
+                    className="h-5 w-5"
                     aria-hidden="true"
                     fill="currentColor"
                     viewBox="0 0 20 20"
