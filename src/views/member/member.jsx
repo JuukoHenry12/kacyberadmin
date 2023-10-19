@@ -10,6 +10,7 @@ import { DeleteMember } from "../../ApiCalls/member";
 import { AiFillDelete } from "react-icons/ai";
 import { GetUser } from "ApiCalls/api";
 import Select from "react-select";
+import moment from 'moment';
 
 const Index = () => {
   const [members, setMember] = useState();
@@ -85,7 +86,15 @@ const Index = () => {
     // Your form submission logic
     try {
         dispatch(setLoader(true));
-        const response = await Addmember(values);
+        const payload = {
+          name:values.name.label,
+          phoneNumber:values.name.phoneNumber,
+          cardnumber:values.cardnumber,
+          IssuedBy:values.IssuedBy,
+          cardType:values.cardType
+        }
+        console.log(payload)
+        const response = await Addmember(payload);
         dispatch(setLoader(false));
         setVisible(false);
         if (response.success) {
@@ -98,8 +107,7 @@ const Index = () => {
         dispatch(setLoader(false));
         message.error(error, message);
     }
-
-  };
+};
 
   const deletemembers = async (_id) => {
     try {
@@ -121,6 +129,23 @@ const Index = () => {
   const indexOfLastItem = Math.min(currentPage * itemsPerPage, maxRecords);
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = members?.slice(indexOfFirstItem, indexOfLastItem);
+
+    // Custom validation function for 3 digits
+  const validateThreeDigits = (rule, value, callback) => {
+    const regex = /^\d{3}$/; // Regular expression to match exactly 3 digits
+
+    if (value && !regex.test(value)) {
+      callback('Card Number must be exactly 3 digits');
+    } else {
+      callback(); // Validation passed
+    }
+  };
+
+    const rules2 = [
+      {
+        validator: validateThreeDigits, // Use the custom validation function
+      },
+    ];
 
   return (
     <Card extra={"w-full sm:overflow-auto p-4"}>
@@ -157,6 +182,7 @@ const Index = () => {
                   setSelectedUser(selectedOption);
                   // Autofill phone number input with the selected user's phone number
                   form.setFieldsValue({
+                    // name: selectedOption ? selectedOption.label : undefined,
                     phoneNumber: selectedOption ? selectedOption.phoneNumber : undefined,
                   });
                 }}
@@ -166,12 +192,22 @@ const Index = () => {
               <Input />
             </Form.Item>
             <Form.Item
-              label="Card Number"
-              name="cardnumber"
-              rules={rules}
-            >
-              <Input />
-            </Form.Item>
+                label="Card Number"
+                name="cardnumber"
+                
+                rules={[
+                  {
+                    required: true,
+                    message: 'Card Number is required',
+                  },
+                  {
+                    pattern: /^\d{3}$/, // Pattern to match exactly 3 digits
+                    message: 'Card Number must be exactly 3 digits',
+                  },
+                ]}
+              >
+                <Input  maxLength={3} />
+              </Form.Item>
             <Form.Item label="Issued By" name="IssuedBy" rules={rules}>
               <Input />
             </Form.Item>
@@ -194,16 +230,22 @@ const Index = () => {
                   Name
                 </th>
                 <th scope="col" class="px-6 py-3">
-                  Email
+                  phoneNumber
                 </th>
                 <th scope="col" class="px-6 py-3">
-                  PhoneNumber
+                IssuedBy
                 </th>
                 <th scope="col" class="px-6 py-3">
-                  Nin Number
+                 Card Type
                 </th>
                 <th scope="col" class="px-6 py-3">
-                  Action
+                 Status
+                </th>
+                <th scope="col" class="px-6 py-3">
+                 Date Issed
+                </th>
+                <th scope="col" class="px-6 py-3">
+                 Action
                 </th>
               </tr>
             </thead>
@@ -218,25 +260,38 @@ const Index = () => {
                       scope="row"
                       className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
                     >
-                      {item.firstname} {item.surname}
+                      {item.name}
                     </th>
                     <th
                       scope="row"
                       className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
                     >
-                      {item.email}
+                         {item.phoneNumber}
+               
                     </th>
                     <th
                       scope="row"
                       className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
                     >
-                      {item.phoneNumber}
+                      {item.IssuedBy}
                     </th>
                     <th
                       scope="row"
                       className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
                     >
-                      {item.NinNumber}
+                      {item.cardType}
+                    </th>
+                    <th
+                      scope="row"
+                      className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
+                    >
+                      {item.status}
+                    </th>
+                    <th
+                      scope="row"
+                      className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
+                    >
+                    {moment(item.createdAt).format('MMMM Do YYYY, h:mm:ss a')} 
                     </th>
                     <th
                       scope="row"

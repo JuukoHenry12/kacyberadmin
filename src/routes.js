@@ -37,13 +37,13 @@ const routes = [
     icon: <MdManageAccounts className="h-6 w-6" />,
     component: <Member />,
   },
-  {
-    name: "Card Payment",
-    layout: "/admin",
-    path: "payment",
-    icon: <MdPerson className="h-6 w-6" />,
-    component: <CardPayment />,
-  },
+  // {
+  //   name: "Card Payment",
+  //   layout: "/admin",
+  //   path: "payment",
+  //   icon: <MdPerson className="h-6 w-6" />,
+  //   component: <CardPayment />,
+  // },
   {
     name: "Add Staff",
     layout: "/admin",
