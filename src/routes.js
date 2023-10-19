@@ -31,7 +31,7 @@ const routes = [
     component: <DataTables />,
   },
   {
-    name: "Card Member",
+    name: "Issue Card",
     layout: "/admin",
     path: "member",
     icon: <MdManageAccounts className="h-6 w-6" />,

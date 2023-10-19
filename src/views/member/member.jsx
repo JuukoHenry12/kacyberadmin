@@ -42,6 +42,7 @@ const Index = () => {
       value: "BlueWatch",
     },
   ];
+
   const FetchData = async () => {
     const member = await Getmember();
     console.log(member);
@@ -50,14 +51,12 @@ const Index = () => {
 
   const GetWishList = async () => {
     const user2 = await GetUser();
-
-    //  console.log("user2",user2.user)
     const usersData = user2.user?.map((user) => ({
       value: user._id,
       label: `${user.firstname} ${user.surname}`,
+      phoneNumber: user.phoneNumber, // Add the phoneNumber to the user object
     }));
     setUser(usersData);
-    // console.log("usr",usersData)
   };
 
   useEffect(() => {
@@ -83,23 +82,25 @@ const Index = () => {
   const formRef = useRef(null);
 
   const handleSubmit = async (values) => {
-    console.log("add user",values)
-    // try {
-    //   dispatch(setLoader(true));
-    //   const response = await Addmember(values);
-    //   dispatch(setLoader(false));
-    //   setVisible(false);
-    //   if (response.success) {
-    //     message.success(response.message);
-    //     FetchData();
-    //   } else {
-    //     message.error(response.message);
-    //   }
-    // } catch (error) {
-    //   dispatch(setLoader(false));
-    //   message.error(error, message);
-    // }
+    // Your form submission logic
+    try {
+        dispatch(setLoader(true));
+        const response = await Addmember(values);
+        dispatch(setLoader(false));
+        setVisible(false);
+        if (response.success) {
+          message.success(response.message);
+          FetchData();
+        } else {
+          message.error(response.message);
+        }
+    } catch (error) {
+        dispatch(setLoader(false));
+        message.error(error, message);
+    }
+
   };
+
   const deletemembers = async (_id) => {
     try {
       dispatch(setLoader(true));
@@ -130,13 +131,13 @@ const Index = () => {
       </header>
       <div className="flex justify-end">
         <button
-          className="mr-2 mb-2 rounded-full bg-gray-800 px-5 py-2.5 text-sm font-medium text-white hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
+          className="mr-2 mb-2 rounded-full bg-gray-800 px-5 py-2.5 text-sm font-medium text-white hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:hover-bg-gray-700 dark:focus:ring-gray-700"
           onClick={() => setVisible(true)}
         >
           Assign Card to User
         </button>
         <Modal
-          title="Assign   Card to User"
+          title="Assign Card to User"
           visible={visible}
           onCancel={handleCancel}
           okText="Add Card Member"
@@ -144,18 +145,20 @@ const Index = () => {
         >
           <Form form={form} onFinish={handleSubmit}>
             <Form.Item
-              label="Select a User to Assign Card to"
+              label="Select Card User"
               name="name"
               rules={rules}
             >
               <Select
-                className="react-select-container" // Customize styling as needed
+                className="react-select-container"
                 options={user}
                 placeholder="Select a user..."
                 onChange={(selectedOption) => {
                   setSelectedUser(selectedOption);
                   // Autofill phone number input with the selected user's phone number
-                  form.setFieldsValue({ phoneNumber: selectedOption ? selectedOption.phoneNumber : undefined });
+                  form.setFieldsValue({
+                    phoneNumber: selectedOption ? selectedOption.phoneNumber : undefined,
+                  });
                 }}
               />
             </Form.Item>
@@ -163,13 +166,12 @@ const Index = () => {
               <Input />
             </Form.Item>
             <Form.Item
-              label="Enter Last 3 digitals Card Number"
+              label="Card Number"
               name="cardnumber"
               rules={rules}
             >
               <Input />
             </Form.Item>
-
             <Form.Item label="Issued By" name="IssuedBy" rules={rules}>
               <Input />
             </Form.Item>
