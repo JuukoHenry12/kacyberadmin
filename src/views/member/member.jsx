@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import Card from "components/card";
 import { Getmember } from "../../ApiCalls/member";
-import { DeleteUser } from "ApiCalls/api";
+// import { DeleteUser } from "ApiCalls/api";
 import { Form, Modal, Input, message } from "antd";
 import { Addmember } from "../../ApiCalls/member";
 import { useDispatch } from "react-redux";

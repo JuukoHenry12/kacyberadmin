@@ -7,10 +7,12 @@ import { useDispatch } from 'react-redux'
 import { setLoader } from "../../redux/loaderSlice";
 import { message } from "antd";
 import logo from "../../assets/img/logo.png"
+import { setToken } from '../../redux/tokenSlice';
 
 export default function SignIn() {
   const [email, setEmail] = useState();
   const [password,setPassword] = useState();
+  // const login =useAuth()
  
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -30,6 +32,7 @@ export default function SignIn() {
           if(response.success ){
             message.success(response.message)
             localStorage.setItem("token",response.token)
+            dispatch(setToken(response.token));
             navigate("/admin/dashboard")
         
           }else {
@@ -51,7 +54,7 @@ export default function SignIn() {
         </h4> */}
         <img src={logo} alt="not found" width={"300px"} height={"300px"} className="mx-auto"/>
         <form onSubmit={handleSubmit}>
-          <div class="mb-6">
+          <div className="mb-6">
             <label
               for="default-input"
               className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"

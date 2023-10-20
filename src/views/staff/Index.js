@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import CardMenu from "components/card/CardMenu";
 import Card from "components/card";
 import { GetStuff } from "../../ApiCalls/StuffApi";
-import { AiFillDelete, AiFillEdit } from "react-icons/ai";
+import { AiFillDelete } from "react-icons/ai";
 import { DeleteUser } from "ApiCalls/api";
 
 const Index = () => {
