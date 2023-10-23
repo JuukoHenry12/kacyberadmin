@@ -7,6 +7,7 @@ import Member from "views/member/member";
 import CardPayment from "views/CardPayment/Index";
 import Dashboard from "views/dashboard/Index";
 
+
 // Icon Imports
 import {
   MdBarChart,
@@ -39,10 +40,10 @@ const routes = [
   },
   // {
   //   name: "Card Payment",
-  //   layout: "/admin",
+  //   layout: "/",
   //   path: "payment",
-  //   icon: <MdPerson className="h-6 w-6" />,
-  //   component: <CardPayment />,
+  //   // icon: <MdPerson className="h-6 w-6" />,
+  //   component: <ResetPassword  />,
   // },
   {
     name: "Add Staff",
