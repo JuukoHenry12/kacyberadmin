@@ -269,7 +269,7 @@ const Index = () => {
                       scope="row"
                       className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
                     >
-                         {item.phoneNumber}
+                      {item.phoneNumber}
                
                     </th>
                     <th
@@ -288,7 +288,9 @@ const Index = () => {
                       scope="row"
                       className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
                     >
-                      {item.cardnumber}
+                      {
+                       item.cardnumber
+                      }
                     </th>
                     <th
                       scope="row"
