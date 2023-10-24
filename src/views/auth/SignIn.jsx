@@ -1,7 +1,7 @@
 import React, { useState,useRef } from "react";
 import { LoginStuff } from "../../ApiCalls/StuffApi";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch } from 'react-redux'
 import { setLoader } from "../../redux/loaderSlice";
@@ -13,12 +13,13 @@ import { Link } from "react-router-dom";
 export default function SignIn() {
   const [email, setEmail] = useState();
   const [password,setPassword] = useState();
-  // const login =useAuth()
- 
+
+  const [recaptchaValue, setRecaptchaValue] = useState(""); // To store the ReCAPTCHA response
+  const [showRecaptcha, setShowRecaptcha] = useState(false);
+
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const recaptchaRef = React.createRef();
-
+  const recaptchaRef = useRef();
   const handleSubmit = async (event) => {
     event.preventDefault();
     const payload = {
@@ -27,6 +28,13 @@ export default function SignIn() {
     };
 
      try{  
+            // Check if ReCAPTCHA is solved
+          if (!recaptchaValue) {
+            // If ReCAPTCHA is not solved, show ReCAPTCHA
+            setShowRecaptcha(true);
+            return;
+          }
+
           dispatch(setLoader(true))
           const response = await LoginStuff(payload)
           console.log(response)
@@ -39,17 +47,24 @@ export default function SignIn() {
         
           }else {
             message.error(response.message)
+               // Show ReCAPTCHA on submission failure
+              setShowRecaptcha(true);
+              // Reset ReCAPTCHA value
+              setRecaptchaValue("");
           }
      }catch(error){
           dispatch(setLoader(false))
           message.error(error.message)
+            // Show ReCAPTCHA on submission failure
+          setShowRecaptcha(true);
+          // Reset ReCAPTCHA value
+          setRecaptchaValue("");
      }
   };
-
   const handleRecaptchaChange = (value) => {
     // This function will be called when the user solves the reCAPTCHA.
-    // You can perform your desired action here.
-    console.log("reCAPTCHA value:", value);
+    // You can store the ReCAPTCHA response in state.
+    setRecaptchaValue(value);
   };
 
 
@@ -95,11 +110,17 @@ export default function SignIn() {
               placeholder="Enter your password"
             />
           </div>
-           {/* <ReCAPTCHA
-               sitekey={process.env.REACT_APP_SITE_KEY}
-              onChange={handleRecaptchaChange}
-              ref={recaptchaRef}
-            /> */}
+             <div>      
+                {showRecaptcha && (
+                  <div style={{ position: 'absolute', bottom: 0, right: 0 }}>
+                          <ReCAPTCHA
+                            sitekey="6Lda_sYoAAAAAPW4yhB_N_UL3rgU_Wi_vZ8wM3QQ"
+                            onChange={handleRecaptchaChange}
+                            ref={recaptchaRef}
+                          />
+                        </div>
+                      )}
+             </div>
             <p className="text-center"><Link to="/restpassword">Did you forget your password?</Link></p>
           <button
             type="submit"
