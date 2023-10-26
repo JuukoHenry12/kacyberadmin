@@ -16,6 +16,7 @@ export default function SignIn() {
 
   const [recaptchaValue, setRecaptchaValue] = useState(""); // To store the ReCAPTCHA response
   const [showRecaptcha, setShowRecaptcha] = useState(false);
+  const [recaptchaCompleted, setRecaptchaCompleted] = useState(false);
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -26,14 +27,15 @@ export default function SignIn() {
       email,
       password
     };
+      // Check if ReCAPTCHA is solved
+      if (!recaptchaValue) {
+        // If ReCAPTCHA is not solved, show ReCAPTCHA
+        setShowRecaptcha(true);
+        return;
+      }
 
      try{  
-            // Check if ReCAPTCHA is solved
-          if (!recaptchaValue) {
-            // If ReCAPTCHA is not solved, show ReCAPTCHA
-            setShowRecaptcha(true);
-            return;
-          }
+          
 
           dispatch(setLoader(true))
           const response = await LoginStuff(payload)
@@ -65,6 +67,8 @@ export default function SignIn() {
     // This function will be called when the user solves the reCAPTCHA.
     // You can store the ReCAPTCHA response in state.
     setRecaptchaValue(value);
+    console.log(value)
+    setRecaptchaCompleted(true);
   };
 
 
@@ -114,7 +118,7 @@ export default function SignIn() {
                 {showRecaptcha && (
                   <div style={{ position: 'absolute', bottom: 0, right: 0 }}>
                           <ReCAPTCHA
-                            sitekey="6Lda_sYoAAAAAPW4yhB_N_UL3rgU_Wi_vZ8wM3QQ"
+                            sitekey="6Le-rMcoAAAAAH2z3wAQhcyuSdH5JscWS5WImx7q"
                             onChange={handleRecaptchaChange}
                             ref={recaptchaRef}
                           />

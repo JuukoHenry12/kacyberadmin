@@ -132,10 +132,10 @@ const Index = () => {
 
     // Custom validation function for 3 digits
   const validateThreeDigits = (rule, value, callback) => {
-    const regex = /^\d{3}$/; // Regular expression to match exactly 3 digits
+    const regex = /^\d{6}$/; // Regular expression to match exactly 3 digits
 
     if (value && !regex.test(value)) {
-      callback('Card Number must be exactly 3 digits');
+      callback('Card Number must be exactly 6 digits');
     } else {
       callback(); // Validation passed
     }
@@ -191,23 +191,23 @@ const Index = () => {
             <Form.Item label="PhoneNumber" name="phoneNumber" rules={rules}>
               <Input />
             </Form.Item>
-            <Form.Item
+              <Form.Item
                 label="Card Number"
                 name="cardnumber"
-                
                 rules={[
                   {
                     required: true,
                     message: 'Card Number is required',
                   },
                   {
-                    pattern: /^\d{3}$/, // Pattern to match exactly 3 digits
-                    message: 'Card Number must be exactly 3 digits',
+                    pattern: /^\d{6}$/, // Pattern to match exactly 6 digits
+                    message: 'Card Number must be exactly 6 digits',
                   },
                 ]}
               >
-                <Input  maxLength={3} />
+                <Input maxLength={6} />
               </Form.Item>
+
             <Form.Item label="Issued By" name="IssuedBy" rules={rules}>
               <Input />
             </Form.Item>
